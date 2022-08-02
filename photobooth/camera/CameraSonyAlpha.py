@@ -99,7 +99,7 @@ class CameraSonyAlpha(CameraInterface):
         logging.info("Response: " + str(response))
         url = response["result"][0][0]
         logging.info("Downloading from URL: " + str(url))
-        r = requests.get(url)
+        r = requests.get(url, stream=True)
 
         # OpenCV yields frames in BGR format, conversion to RGB necessary.
         # (See https://stackoverflow.com/a/32270308)
