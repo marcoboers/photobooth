@@ -37,14 +37,14 @@ class CameraSonyAlpha(CameraInterface):
 
         logging.info('Using OpenCV for Sony Alpha camera integration')
 
-        opencv_url = self._cfg.get('Camera', 'opencv_url')
+        self.opencvUrl = self._cfg.get('Camera', 'opencv_url')
 
-        logging.info('Sony opencv_url is set to ' + opencv_url)
+        logging.info('Sony opencv_url is set to ' + self.opencvUrl)
 
         # Connect to camera
         logging.info("Connecting to camera...")
         payload = {"version": "1.0", "id": 1, "method": "startRecMode", "params": []}
-        r = requests.post(opencv_url, json=payload)
+        r = requests.post(self.opencvUrl, json=payload)
         if r.status_code != 200:
             logging.info("Could not connect to camera: " + str(r.status_code))
             exit()
@@ -54,7 +54,7 @@ class CameraSonyAlpha(CameraInterface):
         logging.info("Requesting medium res preview stream...")
         # payload = {"version": "1.0", "id": 1, "method": "startLiveviewWithSize", "params": ["M"]}
         payload = {"version": "1.0", "id": 1, "method": "startLiveview", "params": []}
-        r = requests.post(opencv_url, json=payload)
+        r = requests.post(self.opencvUrl, json=payload)
         response = r.json()
         logging.info("Response: " + str(response))
         url = response["result"][0]
