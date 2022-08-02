@@ -60,7 +60,7 @@ class Camera:
 
     def startup(self):
 
-        self._cap = self._cam()
+        self._cap = self._cam(self._cfg)
 
         logging.info('Using camera {} preview functionality'.format(
             'with' if self._is_preview else 'without'))

@@ -28,9 +28,11 @@ from .CameraInterface import CameraInterface
 
 class CameraSonyAlpha(CameraInterface):
 
-    def __init__(self):
+    def __init__(self, config):
 
         super().__init__()
+
+        self._cfg = config
 
         self.hasPreview = True
         self.hasIdle = True
