@@ -32,7 +32,7 @@ modules = (
     ('gphoto2-cffi', 'CameraGphoto2Cffi', 'CameraGphoto2Cffi'),
     ('gphoto2-commandline', 'CameraGphoto2CommandLine',
      'CameraGphoto2CommandLine'),
-    ('opencv', 'CameraOpenCV', 'CameraOpenCV'),
+    ('opencv-sony-alpha', 'CameraSonyAlpha', 'CameraSonyAlpha'),
     ('picamera', 'CameraPicamera', 'CameraPicamera'),
     ('dummy', 'CameraDummy', 'CameraDummy'))
 
