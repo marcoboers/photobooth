@@ -23,6 +23,7 @@ from PIL import Image
 
 import requests
 import cv2
+import time
 from .CameraInterface import CameraInterface
 
 
@@ -59,15 +60,16 @@ class CameraSonyAlpha(CameraInterface):
         r = requests.post(self.opencvUrl, json=payload)
         response = r.json()
         logging.info("Response: " + str(response))
-        url = response["result"][0]
-        logging.info("URL: " + str(url))
+        self.liveview_url = response["result"][0]
+        logging.info("Liveview URL: " + str(self.liveview_url))
 
-        self._cap = cv2.VideoCapture(url)
+        self._cap = cv2.VideoCapture(self.liveview_url)
 
     def setActive(self):
 
+        logging.info("setActive with Liveview URL: " + str(self.liveview_url))
         if not self._cap.isOpened():
-            self._cap.open(0)
+            self._cap.open(self.liveview_url)
             if not self._cap.isOpened():
                 raise RuntimeError('Camera could not be opened')
 
@@ -78,10 +80,7 @@ class CameraSonyAlpha(CameraInterface):
 
     def getPreview(self):
 
-        return self.getPicture()
-
-    def getPicture(self):
-
+        logging.info("getPreview")
         self.setActive()
         status, frame = self._cap.read()
         if not status:
@@ -90,3 +89,18 @@ class CameraSonyAlpha(CameraInterface):
         # OpenCV yields frames in BGR format, conversion to RGB necessary.
         # (See https://stackoverflow.com/a/32270308)
         return Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+
+    def getPicture(self):
+
+        logging.info("getPicture")
+        payload = {"version": "1.0", "id": 1, "method": "actTakePicture", "params": []}
+        r = requests.post(self.opencvUrl, json=payload)
+        response = r.json()
+        logging.info("Response: " + str(response))
+        url = response["result"][0][0]
+        logging.info("Downloading from URL: " + str(url))
+        r = requests.get(url)
+
+        # OpenCV yields frames in BGR format, conversion to RGB necessary.
+        # (See https://stackoverflow.com/a/32270308)
+        return Image.open(r.content)
