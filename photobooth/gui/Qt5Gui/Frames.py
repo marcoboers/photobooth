@@ -631,13 +631,13 @@ class Settings(QtWidgets.QFrame):
 
         self.add('Camera', 'rotation', rotation)
 
-        camaddress = QtWidgets.QLineEdit(
-            self._cfg.get('Camera', 'camaddress'))
-        self.add('Camera', 'camaddress', camaddress)
+        opencv_url = QtWidgets.QLineEdit(
+            self._cfg.get('Camera', 'opencv_url'))
+        self.add('Camera', 'opencv_url', opencv_url)
 
         layout = QtWidgets.QFormLayout()
         layout.addRow(_('Camera module:'), module)
-        layout.addRow(_('Camera url:'), camaddress)
+        layout.addRow(_('Camera url:'), opencv_url)
         layout.addRow(_('Camera rotation:'), rotation)
 
         widget = QtWidgets.QWidget()
@@ -1002,8 +1002,8 @@ class Settings(QtWidgets.QFrame):
                                               'module').currentIndex()][0])
         self._cfg.set('Camera', 'rotation', str(
             self.rot_vals_[self.get('Camera', 'rotation').currentIndex()]))
-        self._cfg.set('Camera', 'camaddress',
-                      self.get('Camera', 'camaddress').text())
+        self._cfg.set('Camera', 'opencv_url',
+                      self.get('Camera', 'opencv_url').text())
 
         self._cfg.set('Picture', 'num_x', self.get('Picture', 'num_x').text())
         self._cfg.set('Picture', 'num_y', self.get('Picture', 'num_y').text())
