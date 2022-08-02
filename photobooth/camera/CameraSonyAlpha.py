@@ -103,4 +103,4 @@ class CameraSonyAlpha(CameraInterface):
 
         # OpenCV yields frames in BGR format, conversion to RGB necessary.
         # (See https://stackoverflow.com/a/32270308)
-        return Image.open(r.content)
+        return Image.open(r.raw)
