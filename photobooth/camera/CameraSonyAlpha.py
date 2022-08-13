@@ -67,7 +67,6 @@ class CameraSonyAlpha(CameraInterface):
 
     def setActive(self):
 
-        logging.info("setActive with Liveview URL: " + str(self.liveview_url))
         if not self._cap.isOpened():
             self._cap.open(self.liveview_url)
             if not self._cap.isOpened():
@@ -80,7 +79,6 @@ class CameraSonyAlpha(CameraInterface):
 
     def getPreview(self):
 
-        logging.info("getPreview")
         self.setActive()
         status, frame = self._cap.read()
         if not status:
@@ -92,11 +90,11 @@ class CameraSonyAlpha(CameraInterface):
 
     def getPicture(self):
 
-        logging.info("getPicture")
+        #logging.info("getPicture")
         payload = {"version": "1.0", "id": 1, "method": "actTakePicture", "params": []}
         r = requests.post(self.opencvUrl, json=payload)
         response = r.json()
-        logging.info("Response: " + str(response))
+        #logging.info("Response: " + str(response))
         url = response["result"][0][0]
         logging.info("Downloading from URL: " + str(url))
         r = requests.get(url, stream=True)
